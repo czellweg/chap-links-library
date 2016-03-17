@@ -1,0 +1,214 @@
+<html lang="en-US">
+<head>
+    <title>Timeline | PowerHA</title>
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="lib/timeline.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/timeline.css">
+
+    <script type="text/javascript">
+        var timeline;
+        var data;
+        var lastEventId = 1;
+        // Called when the Visualization API is loaded.
+        function drawVisualization() {
+            // Create a JSON data table
+            data = [
+                {
+                    'start': new Date(2010,7,23),
+                    'content': '',
+                    'className': 'yellow',
+                    'event_id': 1
+                },
+
+                {
+                    'start': new Date(2010,7,24),
+                    'content': '',
+                    'className': 'green',
+                    'event_id': 2
+                },
+
+                {
+                    'start': new Date(2010,7,25),
+                    'content': '',
+                    'event_id': 3
+                },
+
+                {
+                    'start': new Date(2010,7,26),
+                    'content': '',
+                    'event_id': 4
+                   
+                },
+
+                {
+                    'start': new Date(2010,7,29),
+                    'content': '',
+                    'className': 'green',
+                    'event_id': 5
+                },
+
+                {
+                    'start': new Date(2010,7,30),
+                    'content': '',
+                    'className': 'yellow',
+                    'event_id': 6
+                },
+
+                {
+                    'start': new Date(2010,8,4),
+                    'content': '',
+                    'className': 'green',
+                    'event_id': 7
+                },
+
+                {
+                    'start': new Date(2010,8,5),
+                    'content': '',
+                    'className': 'green',
+                    'event_id': 8
+                },
+
+                {
+                    'start': new Date(2010,8,6),
+                    'content': '',
+                    'className': 'green-m',
+                    'event_id': 9
+                },
+
+                {
+                    'start': new Date(2010,8,9),
+                    'content': '',
+                    'className': 'green',
+                    'event_id': 10
+                }
+            ];
+
+            // specify options
+            var options = {
+                'width':  '100%',
+                'height': '125px',
+                'start': new Date(2012, 0, 1),
+                'end': new Date(2012, 0, 31),
+                'cluster': true,
+                'clusterMaxItems': 1
+            };
+
+            // Instantiate our timeline object.
+            timeline = new links.Timeline(document.getElementById('mytimeline'), options);
+
+            // Draw our timeline with the created data and options
+            timeline.draw(data);
+        }
+
+        function mouseoverItemEventCallback(eventId) {
+           $('.event').removeClass("highlighted");
+           $('#event_id_'+eventId).addClass("highlighted");
+        }
+
+        function clickItemEventCallback(eventId){
+             $('.events').scrollTo('#event_id_'+ eventId, { duration : 'slow' });
+        }
+        /**
+         * Zoom
+         * @param zoomVal
+         */
+        function zoom(zoomVal) {
+            timeline.zoom(zoomVal);
+            timeline.trigger("rangechange");
+            timeline.trigger("rangechanged");
+        }
+
+        /**
+         * Adjust the visible time range such that all events are visible.
+         */
+        function adjustVisibleTimeRangeToAccommodateAllEvents() {
+            timeline.setVisibleChartRangeAuto();
+        }
+
+        /**
+         * Move
+         * @param moveVal
+         */
+        function move(moveVal) {
+            timeline.move(moveVal);
+            timeline.trigger("rangechange");
+            timeline.trigger("rangechanged");
+        }
+
+        /**
+         * Move the visible range such that the current time is located in the center of the timeline.
+         */
+        function moveToCurrentTime() {
+            timeline.setVisibleChartRangeNow();
+        }
+
+    </script>
+</head>
+
+<body onload="drawVisualization();">
+    <input type="button" value="Now" class="timeline-button btn-now" title="Move to current time" onclick="moveToCurrentTime();">
+    <input type="button" value="Default" class="timeline-button btn-now" title="Adjust visible range to accommodate all events" onclick="adjustVisibleTimeRangeToAccommodateAllEvents();">
+
+    <div class="timeline-container">
+
+        <div id="mytimeline"></div>
+
+        <div class="timeline-controls-container">
+
+            <div class="timeline-controls">
+                <input type="button" value="" class="timeline-button btn-zoom-in" title="Zoom in" onclick="zoom(0.4);" >
+                <input type="button" value="" class="timeline-button btn-zoom-out" title="Zoom in" onclick="zoom(-0.4);">
+                
+                <input type="button" value="" class="timeline-button btn-move-left" title="Move left" onclick="move(-0.2);">
+                <input type="button" value="" class="timeline-button btn-move-right"  title="Move right" onclick="move(0.2);">
+            </div>
+
+        </div>
+    </div>
+    
+    <div >
+        <div class="events">
+            <div id="event_id_1" class="event">
+                <h2><a href="#">Event 1 Warning</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+            <div id="event_id_2" class="event">
+                <h2><a href="#">Event 2 OK</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+            <div id="event_id_3" class="event">
+                <h2><a href="#">Event 3 Error</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+            <div id="event_id_4" class="event">
+                <h2><a href="#">Event 4 Error</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+            <div id="event_id_5" class="event">
+                <h2><a href="#">Event 5 OK</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+            <div id="event_id_6" class="event">
+                <h2><a href="#">Event 6 Warning</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+            <div id="event_id_7" class="event">
+                <h2><a href="#">Event 7 OK</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+            <div id="event_id_8" class="event">
+                <h2><a href="#">Event 8 Ok</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+             <div id="event_id_9" class="event">
+                <h2><a href="#">Event 9 Maintainance</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+             <div id="event_id_10" class="event">
+                <h2><a href="#">Event 10 OK</a></h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> 
+            </div>
+    </div>
+</body>
+</html>
